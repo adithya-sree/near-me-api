@@ -7,14 +7,17 @@ import (
 	"net/http"
 )
 
+//Handler struct that contains db client
 type Handler struct {
 	*db.Client
 }
 
+//Response baes response
 type Response struct {
 	Message string `json:"message"`
 }
 
+//NewHandler creates a new instance of the handler object
 func NewHandler(db *db.Client) *Handler {
 	return &Handler{db}
 }

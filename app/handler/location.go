@@ -12,6 +12,7 @@ type addLocationRequest struct {
 	location string
 }
 
+//AddLocation adds and saves location object do db
 func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 	header, err := checkForAddLocationHeaders(r)
 	if err != nil {
@@ -58,6 +59,7 @@ func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusOK, Response{Message: "successfully added entry"})
 }
 
+//GetLocation get a location object from the db
 func (h *Handler) GetLocation(w http.ResponseWriter, r *http.Request) {
 	username, err := checkForGetLocationHeaders(r)
 	if err != nil {
