@@ -14,6 +14,7 @@ type addLocationRequest struct {
 
 //AddLocation adds and saves location object do db
 func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("AddLocation request received")
 	header, err := checkForAddLocationHeaders(r)
 	if err != nil {
 		respondError(w, http.StatusBadRequest, err.Error())
@@ -61,6 +62,7 @@ func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 
 //GetLocation get a location object from the db
 func (h *Handler) GetLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("GetLocation request received")
 	username, err := checkForGetLocationHeaders(r)
 	if err != nil {
 		respondError(w, http.StatusBadRequest, err.Error())
@@ -74,6 +76,7 @@ func (h *Handler) GetLocation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if result.Username == "" {
+		fmt.Println("No location found for user", username)
 		respondError(w, http.StatusNotFound, "user was not found")
 		return
 	}

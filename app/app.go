@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"nearme-api/app/db"
 	"nearme-api/app/handler"
@@ -40,5 +41,6 @@ func (a *App) setRoutes() {
 
 //Run runs the mux server
 func (a *App) Run(addr string) {
+	fmt.Println("Starting NearMe app on port", addr)
 	log.Fatal(http.ListenAndServe(addr, a.Router))
 }
