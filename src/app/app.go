@@ -5,6 +5,7 @@ import (
 	"log"
 	"nearme-api/src/app/db"
 	"nearme-api/src/app/handler"
+	"nearme-api/src/app/middleware"
 	"nearme-api/src/config"
 	"net/http"
 
@@ -34,12 +35,14 @@ func (a *App) Initialize(c config.AppConfig) error {
 }
 
 func (a *App) setRoutes() {
-	a.Router.HandleFunc("/", a.Handler.Base)
-	a.Router.HandleFunc("/api", a.Handler.Base)
-	a.Router.HandleFunc("/api/uptime", a.Handler.Uptime)
-	a.Router.HandleFunc("/api/running", a.Handler.Running)
-	a.Router.HandleFunc("/api/location", a.Handler.AddLocation).Methods("POST")
-	a.Router.HandleFunc("/api/location", a.Handler.GetLocation).Methods("GET")
+	m := middleware.NewMiddleware(a.config)
+
+	a.Router.HandleFunc("/", m.AuthMiddleware(a.Handler.Base))
+	a.Router.HandleFunc("/api", m.AuthMiddleware(a.Handler.Base))
+	a.Router.HandleFunc("/api/uptime", m.AuthMiddleware(a.Handler.Uptime))
+	a.Router.HandleFunc("/api/running", m.AuthMiddleware(a.Handler.Running))
+	a.Router.HandleFunc("/api/location", m.AuthMiddleware(a.Handler.AddLocation)).Methods("POST")
+	a.Router.HandleFunc("/api/location", m.AuthMiddleware(a.Handler.GetLocation)).Methods("GET")
 }
 
 //Run runs the mux server

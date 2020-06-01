@@ -17,13 +17,13 @@ func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("AddLocation request received")
 	header, err := checkForAddLocationHeaders(r)
 	if err != nil {
-		respondError(w, http.StatusBadRequest, err.Error())
+		RespondError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	l, err := h.FindByUsername(header.username)
 	if err != nil {
-		respondError(w, http.StatusInternalServerError, err.Error())
+		RespondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -39,7 +39,7 @@ func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 		})
 
 		if err != nil {
-			respondError(w, http.StatusInternalServerError, err.Error())
+			RespondError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
 	} else {
@@ -52,12 +52,12 @@ func (h *Handler) AddLocation(w http.ResponseWriter, r *http.Request) {
 		})
 
 		if err != nil {
-			respondError(w, http.StatusInternalServerError, err.Error())
+			RespondError(w, http.StatusInternalServerError, err.Error())
 			return
 		}
 	}
 
-	respondJSON(w, http.StatusOK, Response{Message: "successfully added entry"})
+	RespondJSON(w, http.StatusOK, Response{Message: "successfully added entry"})
 }
 
 //GetLocation get a location object from the db
@@ -65,23 +65,23 @@ func (h *Handler) GetLocation(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("GetLocation request received")
 	username, err := checkForGetLocationHeaders(r)
 	if err != nil {
-		respondError(w, http.StatusBadRequest, err.Error())
+		RespondError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	result, err := h.FindByUsername(username)
 	if err != nil {
-		respondError(w, http.StatusInternalServerError, err.Error())
+		RespondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	if result.Username == "" {
 		fmt.Println("No location found for user", username)
-		respondError(w, http.StatusNotFound, "user was not found")
+		RespondError(w, http.StatusNotFound, "user was not found")
 		return
 	}
 
-	respondJSON(w, http.StatusOK, result)
+	RespondJSON(w, http.StatusOK, result)
 }
 
 func checkForAddLocationHeaders(r *http.Request) (addLocationRequest, error) {

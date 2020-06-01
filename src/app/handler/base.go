@@ -21,19 +21,19 @@ func init() {
 //Base handler
 func (h *Handler) Base(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Base request received")
-	respondJSON(w, http.StatusOK, Response{Message: "nearme-api is up"})
+	RespondJSON(w, http.StatusOK, Response{Message: "nearme-api is up"})
 }
 
 //Running handler
 func (h *Handler) Running(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Running check received")
-	respondJSON(w, http.StatusOK, Response{Message: "running"})
+	RespondJSON(w, http.StatusOK, Response{Message: "running"})
 }
 
 //Uptime handler
 func (h *Handler) Uptime(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Uptime request received")
-	respondJSON(w, http.StatusOK, UptimeResponse{
+	RespondJSON(w, http.StatusOK, UptimeResponse{
 		StartedTime: startTime.Format("2006.01.02 15:04:05"),
 		Uptime:      time.Since(startTime),
 	})
